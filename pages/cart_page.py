@@ -12,11 +12,12 @@ class CartPage(BasePage):
 
     def verify_place_order_functionality(self):
         time.sleep(2)
+        #CART MENU
         cart_menu = self.wait_clickable(test_data.homepage.CART_MENU, 10)
         self.action_click(cart_menu)
 
         time.sleep(1)
-
+        #CLICK PLACE ORDER
         cart_btn = self.wait_clickable(test_data.cart.PLACE_ORDER, 15)
         self.action_click(cart_btn)
 
@@ -73,26 +74,37 @@ class CartPage(BasePage):
 
     def verify_delete_all_products_in_cart(self):
         time.sleep(2)
+        #CLICK CART MENU
         cart_menu = self.wait_clickable(test_data.homepage.CART_MENU, 10)
         self.action_click(cart_menu)
 
         time.sleep(1)
 
+
+        #WHILE LOOP IF THERE IS A DELETE BTN DISPLAY IT WILL CLICK DELETE
         while True:
             delbtn = By.XPATH, f"(//a[@href='#'][normalize-space()='Delete'])[1]"
             try:
+                #TOTAL HEADER
                 total_header = self.get_text(test_data.cart.TOTAL_HEADER, 10)
+
+                #PRICE OF A PRODUCT ITEM
                 total_item = self.get_text(test_data.cart.TOTAL_ITEM, 10)
 
+                #DELETE THE BTN
                 delete_btn = self.wait_clickable(delbtn, 10)
             except TimeoutException:
                 break
 
+            #IF DELETE BTN IS DISPLAY
             if delete_btn:
                 time.sleep(0.5)
 
+                #CLICK DELETE
                 self.action_click(delete_btn)
                 time.sleep(1)
+
+                #SUBTRACT OF TOTAL HEADER AND PRICE OF A PRODUCT TO DELETE
                 subtract_total = int(total_header) - int(total_item)
 
                 print(subtract_total)
@@ -100,10 +112,11 @@ class CartPage(BasePage):
                 time.sleep(1)
 
             else:
+                #CHECKING IF THE TOTAL HEADER IS NOT DISPLAY
                 assert not total_header, "Total header still displayed"
-
                 break
 
+        #CLICK HOME
         home = self.wait_clickable(test_data.homepage.HOME_MENU, 10)
         self.action_click(home)
 

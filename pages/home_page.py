@@ -10,14 +10,16 @@ from pages.base_page import BasePage
 class HomePage(BasePage):
     def verify_add_to_cart_all_phones_product(self):
         time.sleep(2)
-
+        #SCROLL DOWN
         self.scroll_by_amount(0, 150)
         for phone in range(1, 8):
+            #CLICK PHONE CATEGORY
             phone_category = self.wait_clickable(test_data.homepage.PHONES_CATEGORY, 15)
             self.action_click(phone_category)
 
             time.sleep(1)
 
+            #PHONE XPATH TO CLICK
             phone_id = By.XPATH, f"//a[@href='prod.html?idp_={phone}']"
             phone_click = self.wait_visibility(phone_id, 15)
 
@@ -26,6 +28,7 @@ class HomePage(BasePage):
 
             time.sleep(0.5)
 
+            #PHONE ARTICLE TO SCROLL TO.
             phone_articale = By.XPATH, f"(//p[@id='article'])[{phone}]"
             phone_arti = self.wait_presence(phone_articale, 15)
             self.scroll_to_element(phone_arti)

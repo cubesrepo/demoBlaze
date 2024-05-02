@@ -14,7 +14,7 @@ pipeline{
         }
         stage("Run tests"){
             steps{
-                bat 'demoblazeVENV\\Scripts\\activate && pytest -v --html=report.html'
+                bat 'demoblazeVENV\\Scripts\\activate && pytest -v --html=report.html --headless'
             }
         }
     }

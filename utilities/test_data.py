@@ -33,6 +33,7 @@ class register:
 
 class cart:
     PLACE_ORDER = By.XPATH, "//button[text()='Place Order']"
+
     NAME = By.XPATH, "//input[@id='name']"
     COUNTRY = By.XPATH, "//input[@id='country']"
     CITY = By.XPATH, "//input[@id='city']"
@@ -47,3 +48,21 @@ class cart:
 
     TOTAL_HEADER = By.XPATH, "//h3[@id='totalp']"
     TOTAL_ITEM = By.XPATH, "(//tr[@class='success'])[1]/td[3]"
+
+    SAMSUNG_S6 = By.XPATH, "(//a[normalize-space()='Samsung galaxy s6'])[1]"
+    NOKIA = By.XPATH, "//a[normalize-space()='Nokia lumia 1520']"
+    NEXUS = By.XPATH, "//a[normalize-space()='Nexus 6']"
+    SAMSUNG_S7= By.XPATH, "//a[normalize-space()='Samsung galaxy s7']"
+    IPHONE6 = By.XPATH, "//a[normalize-space()='Iphone 6 32gb']"
+    SONY = By.XPATH, "//a[normalize-space()='Sony xperia z5']"
+
+    ADD_TO_CART_BTN = By.XPATH, "//a[normalize-space()='Add to cart']"
+    TOTAL = By.XPATH, "//h3[@id='totalp']"
+
+
+
+
+
+
+
+

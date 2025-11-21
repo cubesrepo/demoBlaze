@@ -1,66 +1,56 @@
-import random
-import string
 import time
 
-import pytest
+from faker import Faker
 
-import test_data
 from pages.base_page import BasePage
+from utilities import test_data
 
-@pytest.mark.order(1)
-class SignUpPage(BasePage):
 
-    def verify_register_with_existing_account(self):
-        time.sleep(2)
-        #click sign up menu
-        signupmenu = self.wait_clickable(test_data.register.REGISTER_MENU, 15)
-        self.action_click(signupmenu)
+class SignupPage(BasePage):
+    def click_signup_menu(self):
+        self.wait_clickable(test_data.register.REGISTER_MENU).click()
+    def click_signup_btn(self):
+        self.wait_clickable(test_data.register.SIGNUP_BTN).click()
+    def get_welcome_name(self):
+        return self.get_text(test_data.homepage.WELCOME_USER).strip()
 
-        time.sleep(0.5)
+    def enter_username_password(self, username, password):
+        self.type(test_data.register.USERNAME, username)
+        self.type(test_data.register.PASSWORD, password)
 
-        #input username
-        self.send_keys(15, test_data.register.USERNAME, test_data.USERNAME)
-        time.sleep(0.5)
+    def verif_valid_signup(self):
+        fake = Faker()
 
-        # input password
-        self.send_keys(15, test_data.register.PASSWORD, test_data.PASSWORD)
+        self.click_signup_menu()
+        username = f"tes_username{fake.email()}"
+        password = "123123531243"
+        self.enter_username_password(username, password)
+        self.click_signup_btn()
 
-        time.sleep(0.5)
-        #click signup btn
-        signup_btn = self.wait_clickable(test_data.register.SIGNUP_BTN, 15)
-        self.action_click(signup_btn)
-        time.sleep(0.5)
+        current_result_message = self.get_alert_message()
+        self.wait_and_accept_alert()
+        return current_result_message, username, password
 
-        # get the alert text and assert it
-        text = self.get_alert_text()
-        assert "This user already exist." in text
-        time.sleep(0.5)
+    def verif_signup_with_no_username_password(self):
+        self.click_signup_menu()
+        self.click_signup_btn()
 
-        self.alert_accept()
+        current_result_message = self.get_alert_message()
+        self.wait_and_accept_alert()
+        return current_result_message
 
-    def verify_register_with_valid_username_and_password(self):
-        time.sleep(2)
+    def verify_signup_with_existing_user(self):
+        self.click_signup_menu()
+        self.enter_username_password(test_data.USERNAME, test_data.PASSWORD)
+        self.click_signup_btn()
 
-        # input username
-        usernamevalue = ''.join(random.choices(string.ascii_lowercase, k=6))
-        username = self.wait_visibility(test_data.register.USERNAME, 15)
-        self.action_send_keys_with_clear(username, usernamevalue)
-        time.sleep(0.5)
+        current_alert_message = self.get_alert_message()
+        self.wait_and_accept_alert()
+        time.sleep(1)
+        return current_alert_message
 
-        # input username
-        passwordvalue = "123123"
-        password = self.wait_visibility(test_data.register.PASSWORD, 15)
-        self.action_send_keys_with_clear(password, passwordvalue)
-        time.sleep(0.5)
 
-        # click signup btn
-        signup_btn = self.wait_clickable(test_data.register.SIGNUP_BTN, 15)
-        self.action_click(signup_btn)
-        time.sleep(0.5)
 
-        # get the alert text and assert it
-        text = self.get_alert_text()
-        assert "Sign up successful." in text
-        time.sleep(0.5)
 
-        self.alert_accept()
+
+
